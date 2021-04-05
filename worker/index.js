@@ -16,8 +16,11 @@ const fib = (index) => {
 }
 
 redisSubscriber.on("message", (channel, message) => {
+    // HSET key field value
+    // Key : hash('values')
+    // field: message
+    // value: fib(message)
     redisClient.hset('values', message, fib(parseInt(message))); // hset means hash
-    // key is message, value is fib(message)
-}); // anytime "message event" is received on redisSubscriber, call the callback function
+});
 
-redisSubscriber.subscribe('insert'); // the "message event" => INSERT on redis
+redisSubscriber.subscribe('insert'); // This is the channel on which the subscriber is subscribed
